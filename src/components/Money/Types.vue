@@ -34,7 +34,6 @@
 <style lang="scss" scoped>
     .types {
         display: flex;
-
         > li {
             font-size: 22px;
             background: #c4c4c4;
