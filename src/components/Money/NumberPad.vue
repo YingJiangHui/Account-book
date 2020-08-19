@@ -15,7 +15,7 @@
             <button @click="inputContent">5</button>
             <button @click="inputContent">6</button>
             <button @click="subtraction">-</button>
-            <button @touchstart="start" @touchend="end">删除</button>
+            <button @touchstart.prevent="press" @touchend="uplift">删除</button>
 
             <button @click="inputContent">7</button>
             <button @click="inputContent">8</button>
@@ -33,16 +33,16 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, PropSync} from 'vue-property-decorator';
+  import {Component} from 'vue-property-decorator';
 
   @Component
   export default class NumberPad extends Vue {
     output = '0';
-    operation='0'
+    operation = '0';
     type = 0;
-    lastTime: Date|undefined;
+    lastTime: string | undefined;
 
-    add(event: MouseEvent) {
+    add() {
       this.type = 1;
     }
 
@@ -59,21 +59,22 @@
     }
 
     equalTo() {
-      const outputNumber = parseFloat(this.output);
-      const target = (event.target as HTMLButtonElement);
-      const input = target.textContent;
-      const inputNumber = parseFloat(input);
-      this.output = (outputNumber + inputNumber) as string;
+        console.log('=')
     }
 
-    start(){
-      this.lastTime = new Date();
+    press() {
+      this.lastTime = this.getDate();
     }
 
-    end() {
-      if((new Date()-this.lastTime)/1000>=1){
+    getDate() {
+      return Date.parse(new Date().toString()).toString();
+    }
+
+    uplift() {
+      const currentTime = Date.parse(new Date().toString()).toString();
+      if (this.lastTime && parseInt(currentTime) - parseInt(this.lastTime) >= 100) {
         this.output = '0';
-      }else{
+      } else {
         if (this.output.length === 1) {
           this.output = '0';
         } else {
@@ -81,9 +82,10 @@
         }
       }
     }
+
     inputContent(event: MouseEvent) {
       const target = (event.target as HTMLButtonElement);
-      const input = target.textContent;
+      const input = target.textContent!;
 
       if (this.output.indexOf('.') >= 0)
         if (input === '.')
@@ -109,6 +111,7 @@
 
 <style lang="scss" scoped>
     @import '~@/assets/style/helper.scss';
+
     .numberPad {
         > .output {
             @extend %clearFix;
@@ -116,12 +119,14 @@
             font-family: Consolas, monospace;
             padding: 9px 16px;
             text-align: right;
-            > .operation{
+
+            > .operation {
                 font-size: 36px;
             }
-            > .result{
+
+            > .result {
                 font-size: 24px;
-                color: rgba(0,0,0,0.4);
+                color: rgba(0, 0, 0, 0.4);
             }
         }
 
