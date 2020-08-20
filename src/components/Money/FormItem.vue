@@ -2,7 +2,7 @@
     <div class="form-item">
         <label>
             <span>{{fieldText}}</span>
-            <input v-model="val" type="text" :placeholder="placeholder" >
+            <input :value="value" @input="onInputChange($event.target.value)" type="text" :placeholder="placeholder" >
         </label>
     </div>
 </template>
@@ -16,10 +16,8 @@
     @Prop(String) value: string|undefined;
     @Prop({required:true}) fieldText!: string;
     @Prop() placeholder!: string;
-    val: string|undefined = this.value;
-    @Watch('val')
-    onValChanged(){
-      this.$emit('update:value',this.val)
+    onInputChange(value: string){
+      this.$emit('update:value',value)
     }
   }
 </script>
