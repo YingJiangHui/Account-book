@@ -1,8 +1,8 @@
 <template>
-    <div class="notes">
+    <div class="form-item">
         <label>
-            <span>备注</span>
-            <input v-model="val" type="text" placeholder="在这里添加标签">
+            <span>{{fieldText}}</span>
+            <input v-model="val" type="text" :placeholder="placeholder" >
         </label>
     </div>
 </template>
@@ -13,9 +13,10 @@
 
   @Component
   export default class Notes extends Vue {
-    @Prop(String) value!: string;
-    val: string = this.value;
-
+    @Prop(String) value: string|undefined;
+    @Prop({required:true}) fieldText!: string;
+    @Prop() placeholder!: string;
+    val: string|undefined = this.value;
     @Watch('val')
     onValChanged(){
       this.$emit('update:value',this.val)
@@ -24,9 +25,8 @@
 </script>
 
 <style lang="scss" scoped>
-    .notes {
-        background: rgb(245, 245, 245);
-        padding: 20px 18px;
+    .form-item {
+        padding: 12px 16px;
         font-size: 14px;
 
         span {
