@@ -5,10 +5,10 @@
         </div>
         <ul class="current">
             <li
-                    @click="toggle(tag)"
-                    v-for="(tag,index) in dataSource" :key="index"
-                    :class="{selected:exist(tag)>=0}"
-            >{{tag}}
+                    @click="toggle(tag.name)"
+                    v-for="(tag) in dataSource" :key="tag.id"
+                    :class="{selected:exist(tag.name)>=0}"
+            >{{tag.name}}
             </li>
         </ul>
 
@@ -48,7 +48,7 @@
       if (tag === '') {
         alert('标签名不能为空');
       } else if (this.dataSource && tag !== null && typeof tag === 'string') {
-        this.$emit('update:dataSource', [...this.dataSource, tag]);
+        this.$emit('update:dataSource', [...this.dataSource, {id:tag,name:tag}]);
       }
     }
   }
