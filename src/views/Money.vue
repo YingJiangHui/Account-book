@@ -30,6 +30,7 @@
       Tags
     }
   })
+
   export default class Money extends Vue {
     tags = tagListModel.data;
     recordList: RecordItem[] = recordListModel.fetch();
@@ -39,7 +40,6 @@
       type: '-',
       amount: 0,
     };
-
 
     updateTags(value: string[]) {
       this.record.tags = value;

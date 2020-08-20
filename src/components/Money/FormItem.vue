@@ -2,14 +2,14 @@
     <div class="form-item">
         <label>
             <span>{{fieldText}}</span>
-            <input :value="value" @input="onInputChange($event.target.value)" type="text" :placeholder="placeholder" >
+            <input :placeholder="placeholder" :value="value" @input="onInputChange($event.target.value)" type="text" >
         </label>
     </div>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop, Watch} from 'vue-property-decorator';
+  import {Component, Prop} from 'vue-property-decorator';
 
   @Component
   export default class Notes extends Vue {
@@ -26,11 +26,11 @@
     .form-item {
         padding: 12px 16px;
         font-size: 14px;
-
-        span {
+        >label{
+            display: flex;
         }
-
         input[type=text] {
+            flex-grow: 1;
             font-weight: 100;
             background: transparent;
             padding: 0 16px;
