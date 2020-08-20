@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <ol class="tags">
-            <router-link tag="li" :to="'/labels/edit/'+tag.name" v-for="(tag,index) in tagData" :key="index">
+            <router-link tag="li" :to="'/labels/edit/'+tag.id" v-for="(tag,index) in tagData" :key="index">
                 <span>{{tag.name}}</span>
                 <Icon name="right"/>
             </router-link>
