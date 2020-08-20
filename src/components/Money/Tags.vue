@@ -17,13 +17,18 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop} from 'vue-property-decorator';
+  import {Component, Prop, Watch} from 'vue-property-decorator';
 
   @Component
   export default class Tags extends Vue {
-    @Prop(String) dataSource: string[] | undefined;
+    @Prop(Array) dataSource: string[] | undefined;
 
     selectedList: string[] = [];
+
+    @Watch('selectedList')
+    onSelectedListChanged(value: string[]) {
+         this.$emit('update:value',value);
+    }
 
     exist(tag: string): number {
       return this.selectedList.indexOf(tag);

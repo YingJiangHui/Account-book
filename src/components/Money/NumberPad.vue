@@ -23,7 +23,7 @@
 
             <button @click="multiplication">×</button>
 
-            <button class="ok">OK</button>
+            <button @click="ok" class="ok" >OK</button>
             <button @click="inputContent" class="zero">0</button>
             <button @click="inputContent">.</button>
             <button @click="division">÷</button>
@@ -33,15 +33,18 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component} from 'vue-property-decorator';
+  import {Component,Prop} from 'vue-property-decorator';
 
   @Component
   export default class NumberPad extends Vue {
-    output = '0';
+    @Prop(Number) value: number;
+    output = this.value.toString();
     operation = '0';
     type = 0;
     lastTime: string | undefined;
-
+    ok(){
+      this.$emit('update:value',parseFloat(this.output))
+    }
     add() {
       this.type = 1;
     }
