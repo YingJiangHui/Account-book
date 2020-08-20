@@ -1,15 +1,13 @@
 <template>
     <Layout>
         <ol class="tags">
-            <li v-for="(tag,index) in tagData" :key="index">
-                <span>{{tag}}</span>
+            <router-link tag="li" :to="'/labels/edit/'+tag.name" v-for="(tag,index) in tagData" :key="index">
+                <span>{{tag.name}}</span>
                 <Icon name="right"/>
-            </li>
+            </router-link>
 
         </ol>
-        <div class="createTag-wrapper">
-            <button @click="createTag" class="createTag">新增标签</button>
-        </div>
+        <Button @click="createTag">新建标签</Button>
     </Layout>
 </template>
 
@@ -17,10 +15,15 @@
   import Vue from 'vue';
   import {tagListModel} from '@/model/tagListModel.ts';
   import {Component} from 'vue-property-decorator';
+  import Button from '@/components/Button.vue'
 
   tagListModel.fetch();
 
-  @Component
+  @Component({
+    components:{
+      Button
+    }
+  })
   export default class Labels extends Vue {
     tagData = tagListModel.data;
     createTag() {
@@ -58,18 +61,4 @@
         }
     }
 
-    .createTag {
-        border-radius: 4px;
-        height: 40px;
-        padding: 0 16px;
-        border: none;
-        background: #767676;
-        color: white;
-
-        &-wrapper {
-            padding: 16px;
-            text-align: center;
-            margin: 44-16px;
-        }
-    }
 </style>
