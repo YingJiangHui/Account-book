@@ -9,20 +9,16 @@
             <button @click="inputContent">2</button>
             <button @click="inputContent">3</button>
             <button @click="add">+</button>
-
             <button @click="equalTo">=</button>
             <button @click="inputContent">4</button>
             <button @click="inputContent">5</button>
             <button @click="inputContent">6</button>
             <button @click="subtraction">-</button>
             <button @touchstart.prevent="press" @touchend="uplift">删除</button>
-
             <button @click="inputContent">7</button>
             <button @click="inputContent">8</button>
             <button @click="inputContent">9</button>
-
             <button @click="multiplication">×</button>
-
             <button @click="ok" class="ok">OK</button>
             <button @click="inputContent" class="zero">0</button>
             <button @click="inputContent">.</button>
@@ -43,11 +39,6 @@
     type = 0;
     lastTime: string | undefined;
 
-    ok() {
-      this.$emit('update:value',parseFloat(this.output));
-      this.$emit('submit', parseFloat(this.output));
-      this.output = '0';
-    }
 
     add() {
       this.type = 1;
@@ -69,12 +60,13 @@
       console.log('=');
     }
 
-    press() {
-      this.lastTime = this.getDate();
-    }
 
     getDate() {
       return Date.parse(new Date().toString()).toString();
+    }
+
+    press() {
+      this.lastTime = this.getDate();
     }
 
     uplift() {
@@ -112,6 +104,11 @@
       }
     }
 
+    ok() {
+      this.$emit('update:value', parseFloat(this.output));
+      this.$emit('submit', parseFloat(this.output));
+      this.output = '0';
+    }
 
   }
 </script>
@@ -123,6 +120,7 @@
         > .output {
             @extend %clearFix;
             @extend %innerShadow;
+            background: #fff;
             font-family: Consolas, monospace;
             padding: 9px 16px;
             text-align: right;

@@ -9,6 +9,7 @@
     @import '~@/assets/style/helper.scss';
 
     body{
+        background: #f5f5f5;
         font-size: 16px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;

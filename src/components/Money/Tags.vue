@@ -57,7 +57,7 @@
 <style lang="scss" scoped>
     .tags {
         flex-grow: 1;
-
+        background: #fff;
         font-size: 14px;
         padding: 16px;
         display: flex;

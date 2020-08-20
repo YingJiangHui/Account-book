@@ -14,7 +14,7 @@
   @Component
   export default class Notes extends Vue {
     @Prop(String) value!: string;
-    val = this.value;
+    val: string = this.value;
 
     @Watch('val')
     onValChanged(){

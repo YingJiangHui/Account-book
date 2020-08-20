@@ -6,3 +6,4 @@ type RecordItem = {
   createdAt?: Date;
   push?(record2: RecordItem): void;
 }
+
