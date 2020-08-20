@@ -1,8 +1,8 @@
 <template>
     <Layout>
-        <div class="navBar"><Icon name="left"/><span>编辑标签</span></div>
-        <FormItem  field-text="备注" placeholder="输入备注" :value.sync="remark"/>
-        <Button>删除标签</Button>
+        <div class="navBar"><Icon name="left" @click="goBack"/><span>编辑标签</span></div>
+        <FormItem  field-text="备注" placeholder="输入备注" :value="tag.name" @update:value="updateTag"/>
+        <Button @click="removeTag(tag.id)">删除标签</Button>
     </Layout>
 </template>
 
@@ -14,11 +14,9 @@
   import Button from '@/components/Button.vue'
   @Component({
     components: {FormItem,Button},
-
   })
   export default class EditLabel extends Vue {
     tag?: {id: string;name: string}=undefined;
-    remark='';
     created(): void {
       const id = this.$route.params.id;
       tagListModel.fetch();
@@ -29,6 +27,16 @@
       }else{
         this.$router.replace('/404')
       }
+    }
+    updateTag(event: string){
+        tagListModel.update(this.tag.id,event);
+    }
+    removeTag(id: string){
+      tagListModel.remove(id);
+      this.goBack();
+    }
+    goBack(){
+      this.$router.back();
     }
   }
 

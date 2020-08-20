@@ -9,7 +9,8 @@ type TagListModel = {
   create: (name: string) => 'success' | 'duplicated';
   fetch: () => void;
   save: () => void;
-
+  update: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
+  remove: (id: string) => 'success'|'not found';
 }
 const tagListModel: TagListModel = {
   data: [],
@@ -26,8 +27,33 @@ const tagListModel: TagListModel = {
     this.data.push({id: name, name: name});
     this.save();
     return 'success';
+  },
+  update(id: string, name: string) {
+    const tag = this.data.find(item => item.id === id);
+    if (tag) {
+      if (name === tag.name) {
+        return 'duplicated';
+      }else{
+        if(name){
+          tag.name = tag.id = name;
+          this.save();
+          return 'success';
+        }
+      }
+    }
+    return 'not found';
+  },
 
-
+  remove(id){
+    const tag = this.data.find(item => item.id === id);
+    if(tag){
+      const index = this.data.indexOf(tag);
+      this.data.splice(index,1);
+      this.save()
+      alert('删除成功')
+      return 'success';
+    }
+    return 'not found';
   },
   save() {
     window.localStorage.setItem(localStorageName, JSON.stringify(this.data));
