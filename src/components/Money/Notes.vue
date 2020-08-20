@@ -13,7 +13,7 @@
 
   @Component
   export default class Notes extends Vue {
-    @Prop(String) value: string;
+    @Prop(String) value!: string;
     val = this.value;
 
     @Watch('val')
