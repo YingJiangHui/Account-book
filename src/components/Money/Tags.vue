@@ -6,7 +6,7 @@
         <ul class="current">
             <li
                     @click="toggle(tag.name)"
-                    v-for="(tag) in dataSource" :key="tag.id"
+                    v-for="(tag) in tagList" :key="tag.id"
                     :class="{selected:exist(tag.name)>=0}"
             >{{tag.name}}
             </li>
@@ -21,8 +21,7 @@
   import store from '@/store/index2.ts'
   @Component
   export default class Tags extends Vue {
-    @Prop(Array) dataSource: string[] | undefined;
-
+    tagList=store.fetchTags();
     selectedList: string[] = [];
 
     @Watch('selectedList')
@@ -46,7 +45,7 @@
     createTag() {
       const name = window.prompt('输入标签名');
       if (!name) { return; }
-      store.createTag(name);
+      store.createTags(name);
     }
   }
 </script>

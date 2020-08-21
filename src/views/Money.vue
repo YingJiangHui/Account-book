@@ -5,7 +5,7 @@
         <div class="notes">
             <FormItem field-text="备注" placeholder="在这里添加备注" :value.sync="record.notes"/>
         </div>
-        <Tags @update:value="updateTags" :dataSource.sync="tags"/>
+        <Tags @update:value="updateTags" />
     </Layout>
 </template>
 
@@ -29,7 +29,6 @@
   })
 
   export default class Money extends Vue {
-    tags: Tag[] = store.tagsList;
     recordList: RecordItem[] = store.recordList;
     record: RecordItem = {
       tags: [],
@@ -43,7 +42,7 @@
     }
 
     saveRecord() {
-      store.createRecord(this.record);
+      store.createRecords(this.record);
     }
   }
 

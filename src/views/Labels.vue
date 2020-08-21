@@ -30,7 +30,7 @@
       const name = window.prompt('输入标签名');
       if (!name)
         return;
-     store.createTag(name);
+     store.createTags(name);
 
     }
   }
