@@ -23,13 +23,13 @@
     }
   })
   export default class Labels extends Vue {
-    tagData = window.tagsList as Tag[];
+    tagData = window.store.tagsList as Tag[];
 
     create() {
       const name = window.prompt('输入标签名');
       if (!name)
         return;
-      window.createTag(name);
+      window.store.createTag(name);
 
     }
   }

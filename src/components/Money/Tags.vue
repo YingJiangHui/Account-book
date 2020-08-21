@@ -46,7 +46,7 @@
     createTag() {
       const name = window.prompt('输入标签名');
       if (!name) { return; }
-      window.createTag(name);
+      window.store.createTag(name);
     }
   }
 </script>

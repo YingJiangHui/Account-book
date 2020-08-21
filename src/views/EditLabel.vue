@@ -17,7 +17,7 @@
   export default class EditLabel extends Vue {
     tag?: Tag;
     created(): void {
-      const tag =  window.findTag(this.$route.params.id)
+      const tag =  window.store.findTag(this.$route.params.id)
       if(tag){
         this.tag = tag;
       }else{
@@ -26,10 +26,10 @@
     }
     update(event: string){
       if(this.tag)
-        window.updateTag(this.tag.id,event);
+        window.store.updateTag(this.tag.id,event);
     }
     remove(id: string){
-      window.removeTag(id);
+      window.store.removeTag(id);
       this.goBack();
     }
     goBack(){

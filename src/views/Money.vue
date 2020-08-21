@@ -30,8 +30,8 @@
   })
 
   export default class Money extends Vue {
-    tags: Tag[] = window.tagsList;
-    recordList: RecordItem[] = window.recordList;
+    tags: Tag[] = window.store.tagsList;
+    recordList: RecordItem[] = window.store.recordList;
     record: RecordItem = {
       tags: [],
       notes: '',
@@ -44,7 +44,7 @@
     }
 
     saveRecord() {
-      window.createRecord(this.record);
+      window.store.createRecord(this.record);
     }
   }
 
