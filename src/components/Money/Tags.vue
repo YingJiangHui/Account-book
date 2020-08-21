@@ -18,7 +18,7 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Prop, Watch} from 'vue-property-decorator';
-
+  import store from '@/store/index2.ts'
   @Component
   export default class Tags extends Vue {
     @Prop(Array) dataSource: string[] | undefined;
@@ -46,7 +46,7 @@
     createTag() {
       const name = window.prompt('输入标签名');
       if (!name) { return; }
-      window.store.createTag(name);
+      store.createTag(name);
     }
   }
 </script>

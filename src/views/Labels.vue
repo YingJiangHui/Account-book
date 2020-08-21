@@ -15,6 +15,7 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Button from '@/components/Button.vue';
+  import store from '@/store/index2.ts'
 
 
   @Component({
@@ -23,13 +24,13 @@
     }
   })
   export default class Labels extends Vue {
-    tagData = window.store.tagsList as Tag[];
+    tagData = store.tagsList as Tag[];
 
     create() {
       const name = window.prompt('输入标签名');
       if (!name)
         return;
-      window.store.createTag(name);
+     store.createTag(name);
 
     }
   }

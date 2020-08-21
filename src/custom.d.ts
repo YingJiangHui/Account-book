@@ -21,14 +21,3 @@ type TagListModel = {
   find: (id: string) => Tag|undefined;
 }
 
-interface Window {
-  store: {
-    recordList: RecordItem[];
-    createRecord: (record: RecordItem) => void;
-    tagsList: Tag[];
-    createTag: (name: string) => void;
-    removeTag: (id: string) => boolean;
-    updateTag: TagListModel['update'];
-    findTag: (id: string) => Tag|undefined;
-  };
-}
