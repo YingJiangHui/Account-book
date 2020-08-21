@@ -20,7 +20,7 @@
   import {tagListModel} from '@/model/tagListModel'
 
   const recordList: RecordItem = JSON.parse(window.localStorage.getItem('recordList') || '[]');
-  tagListModel.fetch()
+
 
   @Component({
     components: {
@@ -32,7 +32,7 @@
   })
 
   export default class Money extends Vue {
-    tags = tagListModel.data;
+    tags: Tag[] = window.tagsList;
     recordList: RecordItem[] = recordListModel.fetch();
     record: RecordItem = {
       tags: [],

@@ -1,27 +1,15 @@
 import createId from '@/lib/createId';
 
 const localStorageName = 'tagList';
-type Tag = {
-  id: string;
-  name: string;
-}
 
-type TagListModel = {
-  data: Tag[];
-  create: (name: string) => 'success' | 'duplicated';
-  fetch: () => void;
-  save: () => void;
-  update: (id: string, name: string) => 'success' | 'duplicated' | 'not found';
-  remove: (id: string) => 'success'|'not found';
-}
 const tagListModel: TagListModel = {
-  data: [],
+  data: [] as Tag[],
   fetch() {
     this.data = JSON.parse(window.localStorage.getItem(localStorageName) || '[]');
+    return this.data;
   },
   create(name: string) {
     const names = this.data.map((item) => item.name);
-
     if (names.indexOf(name) >= 0) {
       return 'duplicated';
     }
@@ -45,17 +33,18 @@ const tagListModel: TagListModel = {
     }
     return 'not found';
   },
-
+  find(id: string){
+    return this.data.find(item => item.id === id);
+  },
   remove(id){
-    const tag = this.data.find(item => item.id === id);
+    const tag = this.find(id);
     if(tag){
       const index = this.data.indexOf(tag);
       this.data.splice(index,1);
       this.save()
-      alert('删除成功')
-      return 'success';
+      return true;
     }
-    return 'not found';
+    return false;
   },
   save() {
     window.localStorage.setItem(localStorageName, JSON.stringify(this.data));

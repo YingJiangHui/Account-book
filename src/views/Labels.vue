@@ -7,35 +7,30 @@
             </router-link>
 
         </ol>
-        <Button @click="createTag">新建标签</Button>
+        <Button @click="create">新建标签</Button>
     </Layout>
 </template>
 
 <script lang="ts">
   import Vue from 'vue';
-  import {tagListModel} from '@/model/tagListModel.ts';
   import {Component} from 'vue-property-decorator';
-  import Button from '@/components/Button.vue'
+  import Button from '@/components/Button.vue';
 
-  tagListModel.fetch();
 
   @Component({
-    components:{
+    components: {
       Button
     }
   })
   export default class Labels extends Vue {
-    tagData = tagListModel.data;
-    createTag() {
+    tagData = window.tagsList as Tag[];
+
+    create() {
       const name = window.prompt('输入标签名');
-      if (name) {
-        const message = tagListModel.create(name);
-        if (message === 'success') {
-          window.alert('标签添加成功');
-        } else if (message === 'duplicated') {
-          window.alert('标签添加重复了');
-        }
-      }
+      if (!name)
+        return;
+      window.createTag(name);
+
     }
   }
 </script>
