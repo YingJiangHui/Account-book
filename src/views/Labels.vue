@@ -15,22 +15,25 @@
   import Vue from 'vue';
   import {Component} from 'vue-property-decorator';
   import Button from '@/components/Button.vue';
-  import store from '@/store/index2.ts'
 
 
   @Component({
+    computed:{
+      tagData(){
+        return this.$store.state.tagsList as Tag[]
+      }
+    },
     components: {
       Button
     }
   })
   export default class Labels extends Vue {
-    tagData = store.tagsList as Tag[];
 
     create() {
       const name = window.prompt('输入标签名');
       if (!name)
         return;
-     store.createTags(name);
+     this.$store.commit('createTags',name);
 
     }
   }

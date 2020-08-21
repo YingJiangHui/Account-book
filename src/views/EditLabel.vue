@@ -13,18 +13,22 @@
   import {Component} from 'vue-property-decorator';
   import FormItem from '@/components/Money/FormItem.vue';
   import Button from '@/components/Button.vue';
-  import store from '@/store/index2.ts';
 
   @Component({
     components: {FormItem, Button},
+    computed:{
+      currentTag(){
+        return this.$store.state.currentTag;
+      }
+    }
   })
   export default class EditLabel extends Vue {
     tag?: Tag;
 
     created(): void {
-      const tag = store.findTags(this.$route.params.id);
-      if (tag) {
-        this.tag = tag;
+      this.$store.commit('setCurrentTag',this.$route.params.id);
+      if (this.$store.state.currentTag) {
+        this.tag = this.$store.state.currentTag;
       } else {
         this.$router.replace('/404');
       }
@@ -32,12 +36,11 @@
 
     update(event: string) {
       if (this.tag)
-        store.updateTags(this.tag.id, event);
+        this.$store.commit('updateTags',{id:this.tag.id, name:event});
     }
 
     remove(id: string) {
-      if (store.removeTags(id))
-        alert('删除成功');
+      this.$store.commit('removeTags',id)
       this.goBack();
     }
 

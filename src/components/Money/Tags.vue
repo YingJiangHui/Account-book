@@ -17,17 +17,21 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Prop, Watch} from 'vue-property-decorator';
-  import store from '@/store/index2.ts'
-  @Component
+  import {Component, Watch} from 'vue-property-decorator';
+
+  @Component({computed:{
+      tagList(){
+        return this.$store.state.tagsList
+      }
+    }})
   export default class Tags extends Vue {
-    tagList=store.fetchTags();
     selectedList: string[] = [];
 
     @Watch('selectedList')
     onSelectedListChanged(value: string[]) {
-         this.$emit('update:value',value);
+      this.$emit('update:value', value);
     }
+
 
     exist(tag: string): number {
       return this.selectedList.indexOf(tag);
@@ -45,7 +49,7 @@
     createTag() {
       const name = window.prompt('输入标签名');
       if (!name) { return; }
-      store.createTags(name);
+      this.$store.commit('createTags',name);
     }
   }
 </script>
