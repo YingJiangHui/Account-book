@@ -53,26 +53,25 @@ const store = new Vuex.Store({
     fetchTags(state) {
       state.tagsList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
     },
-    updateTags(state: RootState,{id,name}) {
-      console.log('fuck',name);
-      if (state.currentTag) {
-        if (name === state.currentTag.name) {
-          alert('標簽名重複')
+    updateTags(state: RootState,payload: { id: string; name: string }) {
+      const {name,id} = payload
+      const tag = state.tagsList.find(el=>el.id===id)
+      if (tag) {
+        if (name === tag.name) {
+          console.log(name)
         } else {
           if (name) {
-            state.currentTag.name = name;
+            tag.name = name;
             store.commit('saveTags');
-            alert('標簽更新成功')
           }
         }
       }
-      alert('標簽不存在成功')
     },
 
     removeTags(state, id: string) {
-
-      if (state.currentTag) {
-        const index = state.tagsList.indexOf(state.currentTag);
+      const tag = state.tagsList.find(el=>el.id===id)
+      if (tag) {
+        const index = state.tagsList.indexOf(tag);
         state.tagsList.splice(index, 1);
         store.commit('saveTags');
         alert('删除成功');

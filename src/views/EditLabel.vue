@@ -16,31 +16,28 @@
 
   @Component({
     components: {FormItem, Button},
-    computed:{
-      currentTag(){
-        return this.$store.state.currentTag;
-      }
+    computed: {
+
     }
   })
   export default class EditLabel extends Vue {
-    tag?: Tag;
-
+    get currentTag() {
+      return this.$store.state.currentTag;
+    }
     created(): void {
-      this.$store.commit('setCurrentTag',this.$route.params.id);
-      if (this.$store.state.currentTag) {
-        this.tag = this.$store.state.currentTag;
-      } else {
+      this.$store.commit('setCurrentTag', this.$route.params.id);
+      if (!this.currentTag) {
         this.$router.replace('/404');
       }
     }
 
-    update(event: string) {
-      if (this.tag)
-        this.$store.commit('updateTags',{id:this.tag.id, name:event});
+    update(name: string) {
+      if (this.currentTag)
+        this.$store.commit('updateTags',  {id:this.currentTag.id, name});
     }
 
     remove(id: string) {
-      this.$store.commit('removeTags',id)
+      this.$store.commit('removeTags', id);
       this.goBack();
     }
 

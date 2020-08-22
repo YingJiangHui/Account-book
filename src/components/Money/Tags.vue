@@ -16,15 +16,15 @@
 </template>
 
 <script lang="ts">
-  import Vue from 'vue';
   import {Component, Watch} from 'vue-property-decorator';
-
+  import {mixins} from 'vue-class-component'
+  import TagHelper from '@/mixins/tagHelper'
   @Component({computed:{
       tagList(){
         return this.$store.state.tagsList
       }
     }})
-  export default class Tags extends Vue {
+  export default class Tags extends mixins(TagHelper) {
     selectedList: string[] = [];
 
     @Watch('selectedList')
