@@ -6,17 +6,18 @@
         <div>
             <ol>
                 <li v-for="(group,index) in groupList" :key="index">
-                    <div class="title">{{group.title}}</div>
-                    <ul>
-                        <li class="record-item" v-for="(item,index) in group.items" :key="index">
-                            <ul class="tags">
-                                <li v-if="item.tags.length===0">無</li>
-                                <li class="tag-item" v-for="(tag,index) in item.tags" :key="index">{{tag}}</li>
-                            </ul>
-                            <span class="note">{{item.notes}}</span>
-                            <span class="amount">{{item.amount}} ￥</span>
-                        </li>
-                    </ul>
+                    <div class="title"><span>{{beautify(group.title)}}</span><span>合計：{{group.totalPrice}}</span></div>
+                        <ol>
+                            <li  class="record-item" v-for="(item,index) in group.items" :key="index">
+                                <ul class="tags">
+                                    <li v-if="item.tags.length===0">空</li>
+                                    <li class="tag-item" v-for="(tag,index) in  item.tags" :key="index">{{tag}}</li>
+                                </ul>
+                                <span class="note">{{item.notes}}</span>
+                                <span class="amount">￥ {{item.amount}}</span>
+                            </li>
+                        </ol>
+
                 </li>
             </ol>
         </div>
@@ -29,8 +30,9 @@
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
   import intervalList from '@/constants/intervalList';
-  import * as dayjs from 'dayjs'
-  console.log(dayjs().format())
+  import * as dayjs from 'dayjs';
+  import clone from '@/lib/clone';
+
   @Component({
     components: {
       Tabs,
@@ -46,19 +48,47 @@
       return this.$store.state.recordList;
     }
 
-    get groupList() {
-      type HashTableValue = { title: string; items: RecordItem[] };
-      const hashTable: { [key: string]: HashTableValue } = {};
-      const filterArr = this.recordList.filter(item => item.type === this.typeSelect);
-      for (let i = 0; i < filterArr.length; i++) {
+    beautify(string) {
+      const day = dayjs(string);
+      const now = dayjs();
+      if (day.isSame(now, 'day')) {
+        return '今天';
+      } else if (day.isSame!(now.subtract(1, 'day'), 'day')) {
+        return '昨天';
+      } else if (day.isSame!(now.subtract(2, 'day'), 'day')) {
+        return '前天';
+      } else if (day.isSame!(now, 'year')) {
+        return day.format('M月D日');
+      } else {
+        return day.format('YYYY年M月D日');
 
-        const [date, time] = filterArr[i].createdAt!.split('T');
-        hashTable[date] = hashTable[date] || {title: date, items: []};
-        hashTable[date].items.push(filterArr[i]);
       }
-      return hashTable;
     }
 
+    get groupList() {
+      const {recordList} = this;
+      let newList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+      newList = newList.filter(el=> el.type===this.typeSelect);
+      type GroupList = { title: string; totalPrice?: number; items: RecordItem[] };
+      const groupList: GroupList[] = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+      for (let i = 1; i < newList.length; i++) {
+        const len = groupList.length - 1;
+        const current = newList[i];
+        const last = groupList[len];
+        if (dayjs(last.title).isSame(dayjs(current.createdAt), 'day')) {
+          last.items.push(current);
+        } else {
+          groupList.push({title: current.createdAt, items: [current]});
+        }
+        groupList.map(group => {
+          group.totalPrice= group.items.reduce((sum,item) => {
+            return sum+=item.amount;
+          },0);
+        });
+      }
+
+      return groupList
+    }
   }
 </script>
 <style lang="scss" scoped>
@@ -86,6 +116,8 @@
     }
 
     .title {
+        display: flex;
+        justify-content: space-between;
         padding: 7px 16px;
     }
 
@@ -102,12 +134,9 @@
 
         .tags {
             display: flex;
-            >.tag-item{
-                padding: 0 5px;
+
+            > .tag-item {
                 margin-right: 5px;
-                border-radius: 20px;
-                color: #fff;
-                background: #c4c4c4;
             }
         }
 
