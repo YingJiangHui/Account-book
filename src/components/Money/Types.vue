@@ -39,7 +39,7 @@
         > li {
             font-size: 22px;
             background: #c4c4c4;
-            padding: 10px;
+            min-height: 64px;
             text-align: center;
             flex: 1;
         }
