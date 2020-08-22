@@ -3,8 +3,8 @@
         <div class="navBar">
             <Icon name="left" @click="goBack"/>
             <span>编辑标签</span></div>
-        <FormItem field-text="备注" placeholder="输入备注" :value="tag.name" @update:value="update"/>
-        <Button @click="remove(tag.id)">删除标签</Button>
+        <FormItem field-text="备注" placeholder="输入备注" :value="currentTag.name" @update:value="update"/>
+        <Button @click="remove(currentTag.id)">删除标签</Button>
     </Layout>
 </template>
 

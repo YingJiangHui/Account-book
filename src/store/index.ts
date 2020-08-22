@@ -18,7 +18,6 @@ const store = new Vuex.Store({
   } as RootState,
   mutations: {
     setCurrentTag(state,id: string){
-      console.log(id);
       state.currentTag = state.tagsList.find(item => item.id === id);
     },
 
