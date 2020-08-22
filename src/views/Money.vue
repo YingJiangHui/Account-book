@@ -38,13 +38,11 @@
       amount: 0,
     };
 
-    created(): void {
-      this.$store.commit('fetchRecords');
-    }
+
 
     update(value: string[]) {
       this.record.tags = value;
-      this.$store.commit('fetchRecords');
+      // this.$store.commit('fetchRecords');
     }
 
     saveRecord() {
@@ -75,6 +73,10 @@
 <style lang="scss" scoped>
     ::v-deep {
         .type-tabs{
+            .type-item{
+                line-height: 64px;
+
+            }
             >.selected {
                 border-bottom: 3px solid #000;
             }

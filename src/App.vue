@@ -3,7 +3,16 @@
         <router-view/>
     </div>
 </template>
-
+<script lang="ts">
+    import Vue from 'vue';
+    import {Component} from 'vue-property-decorator'
+    @Component()
+    export default class App extends Vue{
+      created(): void {
+        this.$store.commit('fetchRecords');
+      }
+    }
+</script>
 <style lang="scss">
     @import '~@/assets/style/reset.scss';
     @import '~@/assets/style/helper.scss';

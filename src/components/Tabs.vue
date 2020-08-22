@@ -13,7 +13,6 @@
 <script lang='ts'>
   import Vue from 'vue';
   import {Component, Prop} from 'vue-property-decorator';
-  import recordTypeList from '@/constants/recordTypeList';
 
   @Component
   export default class Tabs extends Vue {
@@ -37,7 +36,6 @@
         > li {
             font-size: 22px;
             background: #c4c4c4;
-            padding: 10px;
             text-align: center;
             flex: 1;
         }
