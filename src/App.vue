@@ -6,7 +6,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator'
-    @Component()
+    @Component
     export default class App extends Vue{
       created(): void {
         this.$store.commit('fetchRecords');
@@ -16,7 +16,9 @@
 <style lang="scss">
     @import '~@/assets/style/reset.scss';
     @import '~@/assets/style/helper.scss';
-
+    html,body,#app{
+        height: 100%;
+    }
     body{
         background: #f5f5f5;
         font-size: 16px;

@@ -8,21 +8,23 @@
             <button @click="inputContent">1</button>
             <button @click="inputContent">2</button>
             <button @click="inputContent">3</button>
-            <button @click="add">+</button>
-            <button @click="equalTo">=</button>
+            <button @click="inputContent">+</button>
+            <button @touchstart.prevent="press" @touchend="uplift"><Icon name="delete"/></button>
+
             <button @click="inputContent">4</button>
             <button @click="inputContent">5</button>
             <button @click="inputContent">6</button>
-            <button @click="subtraction">-</button>
-            <button @touchstart.prevent="press" @touchend="uplift">删除</button>
+            <button @click="inputContent">-</button>
+            <button @click="equalTo">=</button>
+
             <button @click="inputContent">7</button>
             <button @click="inputContent">8</button>
             <button @click="inputContent">9</button>
-            <button @click="multiplication">×</button>
+            <button @click="inputContent">×</button>
             <button @click="ok" class="ok">OK</button>
             <button @click="inputContent" class="zero">0</button>
             <button @click="inputContent">.</button>
-            <button @click="division">÷</button>
+            <button @click="inputContent">÷</button>
         </div>
     </div>
 </template>
@@ -82,10 +84,18 @@
       }
     }
 
+    existStr(string: string,char: string){
+      if(string.indexOf(char)>=0){
+        return true
+      }else{
+        return false
+      }
+    }
+
     inputContent(event: MouseEvent) {
+      const table = ['1234567890+-÷×','+-÷×'];
       const target = (event.target as HTMLButtonElement);
       const input = target.textContent!;
-
       if (this.output.indexOf('.') >= 0)
         if (input === '.')
           return;
@@ -94,7 +104,7 @@
         return;
 
       if (this.output === '0') {
-        if ('1234567890'.indexOf(input) >= 0) {
+        if (table[0].indexOf(input) >= 0) {
           this.output = input;
         } else if (input === '.') {
           this.output += '.';
@@ -102,6 +112,7 @@
       } else {
         this.output += input;
       }
+
     }
 
     ok() {
@@ -139,8 +150,10 @@
             @extend %clearFix;
 
             > button {
+
+                font-size: 20px;
                 float: left;
-                $h: 8vh;
+                $h: 15vw;
                 height: $h;
                 background: transparent;
                 width: 20%;

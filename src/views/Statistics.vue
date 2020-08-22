@@ -1,7 +1,7 @@
 <template>
     <Layout>
         <Tabs :value.sync="typeSelect" classPrefix="type" :list="recordTypeList"/>
-        <Tabs :value.sync="intervalSelect" classPrefix="interval" :list="intervalList"/>
+        <NotContent v-if="groupList.length===0">沒有添加記錄...</NotContent>
 
         <div>
             <ol>
@@ -29,26 +29,25 @@
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
-  import intervalList from '@/constants/intervalList';
   import * as dayjs from 'dayjs';
   import clone from '@/lib/clone';
+  import NotContent from '@/components/NotContent.vue'
 
   @Component({
     components: {
+      NotContent,
       Tabs,
     }
   })
   export default class Statistics extends Vue {
     recordTypeList: DataSourceItem[] = recordTypeList as DataSourceItem[];
-    intervalList = intervalList;
     typeSelect = "-";
-    intervalSelect = "year";
 
     get recordList() {
       return this.$store.state.recordList;
     }
 
-    beautify(string) {
+    beautify(string: string) {
       const day = dayjs(string);
       const now = dayjs();
       if (day.isSame(now, 'day')) {
@@ -67,10 +66,16 @@
 
     get groupList() {
       const {recordList} = this;
-      let newList = clone(recordList).sort((a, b) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
-      newList = newList.filter(el=> el.type===this.typeSelect);
+
+      const newList = clone(recordList)
+        .filter((el: RecordItem)=> el.type===this.typeSelect)
+        .sort((a: RecordItem, b: RecordItem) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
+
+      if(newList.length===0){return []}
+
       type GroupList = { title: string; totalPrice?: number; items: RecordItem[] };
       const groupList: GroupList[] = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+      // 將同一天的記錄分組
       for (let i = 1; i < newList.length; i++) {
         const len = groupList.length - 1;
         const current = newList[i];

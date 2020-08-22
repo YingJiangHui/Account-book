@@ -1,5 +1,7 @@
 <template>
     <Layout>
+        <NotContent v-if="tagData.length===0">沒有任何標簽...</NotContent>
+
         <ol class="tags">
             <router-link
                     tag="li"
@@ -20,9 +22,11 @@
   import Button from '@/components/Button.vue';
   import {mixins} from 'vue-class-component';
   import TagHelper from '@/mixins/tagHelper.ts';
+  import NotContent from '@/components/NotContent.vue'
 
   @Component({
     components: {
+      NotContent,
       Button
     }
   })

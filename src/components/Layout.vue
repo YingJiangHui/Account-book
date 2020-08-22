@@ -1,5 +1,5 @@
 <template>
-    <div class="layout-wrapper" :class=" classPrefix && classPrefix+'-layout' ">
+    <div class="layout-wrapper" :style="{minHeight:getScreenHeight+'px'}" :class=" classPrefix && classPrefix+'-layout' ">
         <div class="content" :class="classPrefix && `${classPrefix}-content`">
             <slot></slot>
         </div>
@@ -10,7 +10,23 @@
 <script>
     export default {
         name: 'Layout',
-        props:['classPrefix']
+        props:['classPrefix'],
+        data(){
+            return {
+                screenHeight:document.body.clientHeight
+            }
+        },
+        computed:{
+            getScreenHeight(){
+                return this.screenHeight
+            }
+        },
+        mounted(){
+            setTimeout(()=>{
+                this.screenHeight = document.body.clientHeight
+            },1)
+        }
+
     }
 </script>
 
@@ -18,7 +34,7 @@
     .layout-wrapper {
         display: flex;
         flex-direction: column;
-        height: 100vh;
+        height: 100%;
     }
 
     .content {
