@@ -17,11 +17,12 @@ const routes: Array<RouteConfig> = [
   },
   {
     path: '/labels',
-    component: Labels
+    component: Labels,
   },
   {
     path: '/statistics',
-    component: Statistics
+    component: Statistics,
+
   },
   {
     path: '/labels/edit/:id',

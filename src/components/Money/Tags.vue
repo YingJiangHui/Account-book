@@ -19,14 +19,12 @@
   import {Component, Watch} from 'vue-property-decorator';
   import {mixins} from 'vue-class-component'
   import TagHelper from '@/mixins/tagHelper'
-  @Component({computed:{
-      tagList(){
-        return this.$store.state.tagsList
-      }
-    }})
+  @Component
   export default class Tags extends mixins(TagHelper) {
     selectedList: string[] = [];
-
+    get  tagList(){
+      return this.$store.state.tagsList
+    }
     @Watch('selectedList')
     onSelectedListChanged(value: string[]) {
       this.$emit('update:value', value);

@@ -19,9 +19,6 @@
 
 
   @Component({
-    computed:{
-
-    },
     components: {
       FormItem,
       NumberPad,

@@ -16,9 +16,6 @@
 
   @Component({
     components: {FormItem, Button},
-    computed: {
-
-    }
   })
   export default class EditLabel extends Vue {
     get currentTag() {

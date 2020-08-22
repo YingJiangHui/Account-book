@@ -19,19 +19,18 @@
   import {Component} from 'vue-property-decorator';
   import Button from '@/components/Button.vue';
   import {mixins} from 'vue-class-component';
-  import TagHelper from '@/mixins/tagHelper.ts'
+  import TagHelper from '@/mixins/tagHelper.ts';
+
   @Component({
-    computed: {
-      tagData() {
-        return this.$store.state.tagsList as Tag[];
-      }
-    },
     components: {
       Button
     }
   })
   export default class Labels extends mixins(TagHelper) {
+    get tagData() {
+      return this.$store.state.tagsList as Tag[];
 
+    }
   }
 </script>
 
