@@ -19,11 +19,3 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app');
-
-// window.onload = ()=>{
-//   // document.querySelector('html').height = window.screen.height;
-//   console.log(window.screen.height)
-//   setTimeout(()=>{
-//     window.scrollTo(0,1000)
-//   },0)
-// }

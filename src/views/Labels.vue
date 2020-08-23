@@ -1,7 +1,6 @@
 <template>
     <Layout>
         <NotContent v-if="tagData.length===0">沒有任何標簽...</NotContent>
-
         <ol class="tags">
             <router-link
                     tag="li"
