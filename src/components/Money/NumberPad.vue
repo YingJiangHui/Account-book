@@ -33,7 +33,7 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Watch,Prop} from 'vue-property-decorator';
+  import {Component, Watch, Prop} from 'vue-property-decorator';
 
   @Component
   export default class NumberPad extends Vue {
@@ -49,6 +49,7 @@
     regxNum = /[0-9]\d*/;
     size = 36;
     result = '0';
+
     getDate() {
       return Date.parse(new Date().toString()).toString();
     }
@@ -77,15 +78,18 @@
         return false;
       }
     }
-    equalTo(){
-      this.output = this.result
+
+    equalTo() {
+      this.output = this.result;
     }
+
     popChar(str: string) {
       return str.slice(0, -1);
     }
+
     @Watch('output')
-    onOutPutChanged(){
-      console.log(this.output)
+    onOutPutChanged() {
+      console.log(this.output);
       const numArr = this.output.split(this.regxAny).filter(el => el !== "").map(el => parseFloat(el));
       const strArr = this.output.split(this.regxNum).filter(el => el.match(this.regxAny));
 
@@ -94,21 +98,22 @@
       let result = 0;
       for (let i = 0; numArr.length > 1;) {
         if (numArr[i + 2] && strArr[i + 1].match(this.regxPriority)) {
-          //  乘除
+          //高優先級計算
           const j = i + 1;
           result = this.computer(strArr[j], numArr[j], numArr[j + 1]);
-          numArr.splice(j, 2, result);
-          strArr.splice(j, 1);
+          this.shiftItem(strArr,numArr,j,result)
         }
 
         result = this.computer(strArr[i], numArr[i], numArr[i + 1]);
-        numArr.splice(i, 2, result);
-        strArr.splice(i, 1);
+        this.shiftItem(strArr,numArr,i,result)
       }
       this.result = numArr[0].toString();
     }
 
-
+    shiftItem(strArr: string [],numArr: number [],j,result) {
+      numArr.splice(j, 2, result);
+      strArr.splice(j, 1);
+    }
 
     computer(types: string, beforeItem: number, afterItem: number): number {
       const obj = {
@@ -146,7 +151,7 @@
       }
 
       if (this.output.length >= 16)
-        this.size = 30
+        this.size = 30;
 
       if (this.output === '0') {
 
@@ -188,15 +193,18 @@
             padding: 0 16px;
             text-align: right;
             position: relative;
+
             > .operation {
-                font-size: 1rm;
+                font-size: 1 rm;
                 top: 5px;
                 overflow: hidden;
             }
-            >* {
+
+            > * {
                 position: absolute;
                 right: 16px;
             }
+
             > .result {
                 bottom: 5px;
                 font-size: 24px;
