@@ -21,7 +21,7 @@
   import Button from '@/components/Button.vue';
   import {mixins} from 'vue-class-component';
   import TagHelper from '@/mixins/tagHelper.ts';
-  import NotContent from '@/components/NotContent.vue'
+  import NotContent from '@/components/NotContent.vue';
 
   @Component({
     components: {

@@ -24,7 +24,7 @@
 
 <style lang="scss" scoped>
     .form-item {
-        padding: 12px 16px;
+        padding: 8px 16px;
         font-size: 14px;
         >label{
             display: flex;

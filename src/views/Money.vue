@@ -42,11 +42,16 @@
 
     update(value: string[]) {
       this.record.tags = value;
-      // this.$store.commit('fetchRecords');
     }
 
     saveRecord() {
-      this.$store.commit('createRecords', this.record);
+      if(this.record.tags.length===0){
+        alert('至少添加一個標簽')
+      }else{
+        this.$store.commit('createRecords', this.record);
+        this.record.notes = ''
+        alert('成功提交')
+      }
     }
   }
 
@@ -74,7 +79,7 @@
     ::v-deep {
         .type-tabs{
             .type-item{
-                line-height: 64px;
+                line-height: 48px;
 
             }
             >.selected {

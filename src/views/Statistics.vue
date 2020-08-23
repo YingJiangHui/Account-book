@@ -10,8 +10,7 @@
                         <ol>
                             <li  class="record-item" v-for="(item,index) in group.items" :key="index">
                                 <ul class="tags">
-                                    <li v-if="item.tags.length===0">空</li>
-                                    <li class="tag-item" v-for="(tag,index) in  item.tags" :key="index">{{tag}}</li>
+                                    <li class="tag-item">{{item.tags.join('，')}}</li>
                                 </ul>
                                 <span class="note">{{item.notes}}</span>
                                 <span class="amount">￥ {{item.amount}}</span>
@@ -29,7 +28,7 @@
   import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
-  import * as dayjs from 'dayjs';
+  import dayjs from 'dayjs';
   import clone from '@/lib/clone';
   import NotContent from '@/components/NotContent.vue'
 
@@ -60,7 +59,6 @@
         return day.format('M月D日');
       } else {
         return day.format('YYYY年M月D日');
-
       }
     }
 

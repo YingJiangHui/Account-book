@@ -34,6 +34,7 @@
         display: flex;
 
         > li {
+            cursor: pointer;
             font-size: 22px;
             background: #c4c4c4;
             text-align: center;

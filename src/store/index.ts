@@ -6,6 +6,7 @@ import createId from '@/lib/createId';
 Vue.use(Vuex);
 
 type RootState = {
+  currentState: Error|string;
   recordList: RecordItem[];
   tagsList: Tag[];
   currentTag: Tag|undefined;
@@ -29,6 +30,7 @@ const store = new Vuex.Store({
     },
     fetchRecords(state) {
       state.recordList = JSON.parse(window.localStorage.getItem("recordList") || '[]');
+
     },
     saveRecords(state) {
       window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
@@ -36,21 +38,29 @@ const store = new Vuex.Store({
 
     createTags(state, name: string) {
       const names = state.tagsList.map((item) => item.name);
+      state.currentState=''
       if (names.indexOf(name) >= 0) {
-        alert('标签添加名重复');
-        return 'duplicated';
+        console.log('exist')
+        state.currentState = 'duplicated'
+      }else{
+        console.log('not exist')
+        const id = createId().toString();
+        state.tagsList.push({id, name});
+        store.commit('saveTags');
+        state.currentState = 'success';
       }
-      const id = createId().toString();
-      state.tagsList.push({id, name});
-      store.commit('saveTags');
-      alert('标签添加成功');
-      return 'success';
     },
     saveTags(state) {
       window.localStorage.setItem('tagList', JSON.stringify(state.tagsList));
     },
     fetchTags(state) {
       state.tagsList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+      const initTags = ['衣','食','住','行']
+      if(state.tagsList.length===0){
+        for(const item of initTags){
+          store.commit('createTags',item);
+        }
+      }
     },
     updateTags(state: RootState,payload: { id: string; name: string }) {
       const {name,id} = payload
@@ -71,11 +81,13 @@ const store = new Vuex.Store({
       const tag = state.tagsList.find(el=>el.id===id)
       if (tag) {
         const index = state.tagsList.indexOf(tag);
+        state.currentState=''
         state.tagsList.splice(index, 1);
         store.commit('saveTags');
-        alert('删除成功');
+        state.currentState = 'success';
+      }else{
+        state.currentState = 'not found';
       }
-      return;
     }
   }
 

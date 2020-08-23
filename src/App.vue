@@ -19,8 +19,14 @@
     html,body,#app{
         height: 100%;
     }
-    body{
+    #app{
+        margin: 0 auto;
+        max-width: 500px;
         background: #f5f5f5;
+
+    }
+    body{
+        background: rgba(0,0,0,0.1);
         font-size: 16px;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;

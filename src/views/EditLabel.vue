@@ -21,6 +21,9 @@
     get currentTag() {
       return this.$store.state.currentTag;
     }
+    get commitState(){
+      return this.$store.state.currentState;
+    }
     created(): void {
       this.$store.commit('setCurrentTag', this.$route.params.id);
       if (!this.currentTag) {
@@ -35,6 +38,12 @@
 
     remove(id: string) {
       this.$store.commit('removeTags', id);
+      if(this.commitState === 'success'){
+        alert('删除成功');
+      }else{
+        alert('删除失敗');
+        throw this.commitState
+      }
       this.goBack();
     }
 

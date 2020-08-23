@@ -17,14 +17,17 @@
 
 <script lang="ts">
   import {Component, Watch} from 'vue-property-decorator';
-  import {mixins} from 'vue-class-component'
-  import TagHelper from '@/mixins/tagHelper'
+  import {mixins} from 'vue-class-component';
+  import TagHelper from '@/mixins/tagHelper';
+
   @Component
   export default class Tags extends mixins(TagHelper) {
     selectedList: string[] = [];
-    get  tagList(){
-      return this.$store.state.tagsList
+
+    get tagList() {
+      return this.$store.state.tagsList;
     }
+
     @Watch('selectedList')
     onSelectedListChanged(value: string[]) {
       this.$emit('update:value', value);
@@ -44,10 +47,16 @@
       }
     }
 
+
     createTag() {
       const name = window.prompt('输入标签名');
       if (!name) { return; }
-      this.$store.commit('createTags',name);
+      const commitState = this.$store.state.currentState;
+      if (commitState === 'success') {
+        alert('添加成功');
+      } else if (commitState === 'duplicated') {
+        alert('存在重複標簽');
+      }
     }
   }
 </script>
@@ -71,6 +80,7 @@
             $gb: #d9d9d9;
 
             > li {
+                cursor: pointer;
                 margin-top: 10px;
                 $h: 24px;
                 height: $h;
