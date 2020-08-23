@@ -176,6 +176,7 @@
                 font-size: 1 rm;
                 top: 5px;
                 overflow: hidden;
+                white-space: nowrap;
             }
 
             > * {
