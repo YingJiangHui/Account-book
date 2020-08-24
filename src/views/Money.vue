@@ -5,6 +5,10 @@
         <div class="notes">
             <FormItem field-text="备注" placeholder="在这里添加备注" :value.sync="record.notes"/>
         </div>
+        <div class="createAt">
+            <FormItem field-text="日期"  :value.sync="record.createdAt" type="datetime-local"/>
+        </div>
+
         <Tags @update:value="update"/>
     </Layout>
 </template>
@@ -36,9 +40,8 @@
       notes: '',
       type: '-',
       amount: 0,
+      createdAt:new Date().toISOString()
     };
-
-
 
     update(value: string[]) {
       this.record.tags = value;
