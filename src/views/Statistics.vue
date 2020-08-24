@@ -27,13 +27,14 @@
 
 <script lang="ts">
   import Vue from 'vue';
-  import {Component, Watch} from 'vue-property-decorator';
+  import {Component} from 'vue-property-decorator';
   import Tabs from '@/components/Tabs.vue';
   import recordTypeList from '@/constants/recordTypeList';
   import dayjs from 'dayjs';
   import clone from '@/lib/clone';
   import NotContent from '@/components/NotContent.vue';
   import Chart from '@/components/Chart.vue';
+  import _ from 'lodash';
 
   @Component({
     components: {
@@ -47,10 +48,28 @@
     typeSelect = "-";
 
     mounted(): void {
-      (this.$refs.chartWrapper as HTMLDivElement).scrollLeft = 9999;
+      const div = (this.$refs.chartWrapper as HTMLDivElement);
+      div.scrollLeft = div.scrollWidth;
     }
 
+
     get options() {
+      type ArrList = { date: string; amount: number }
+      const recordList = this.recordList.map((el: RecordItem)=>{el.createdAt=dayjs(el.createdAt).format('YYYY-MM-DD');return el});
+      const array: ArrList[] = [];
+      for (let i = 29; i >= 0; i--) {
+        const today = new Date();
+        const dateStr = dayjs(today).subtract(i, 'day').format('YYYY-MM-DD');
+        const recordItem = _.filter(recordList, {createdAt: dateStr})
+        if(recordItem.length>=1){
+          const amount = recordItem.reduce((sum: number,item: RecordItem)=>sum+=item.amount,0);
+          array.push({date: dateStr, amount: amount});
+        }else{
+          array.push({date: dateStr, amount: 0});
+        }
+      }
+      const date = array.map((el: ArrList)=>dayjs(el.date));
+      const value = array.map((el: ArrList)=>el.amount);
       return {
         grid: {
           left: 0,
@@ -61,15 +80,12 @@
           // text: typeMap[this.typeSelect]
         },
         tooltip: {
-          trigger:'item',
-          position:'top'
+          trigger: 'item',
+          position: 'top'
         },
         xAxis: {
           type: 'category',
-          data: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-            11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-            21, 22, 23, 24, 25, 26, 27, 28, 29, 30
-          ],
+          data: date,
           axisTick: {
             alignWithLabel: true
           },
@@ -87,12 +103,12 @@
           type: 'value'
         },
         series: [{
-          symbol:'circle',
+          symbol: 'circle',
           name: 'aaa',
           type: 'line',
-          data: [200, 300, 400, 200, 100, 600, 399, 220, 900, 100, 200, 300, 400, 200, 100, 600, 399, 220, 900, 100, 200, 300, 400, 200, 100, 600, 399, 220, 900, 100],
+          data: value,
           itemStyle: {
-            color:'#666'
+            color: '#666'
           },
           symbolSize: 10,
 
@@ -101,40 +117,6 @@
       };
     }
 
-    // @Watch('typeSelect', {immediate: true})
-    // onTypeSelectChange() {
-    //   const newList = this.sortList(this.recordList);
-    //   const dateTimeList = newList.map((el: RecordItem) => dayjs(el.createdAt).format('YYYY-MM-DD'));
-    //   const amountList = newList.map((el: RecordItem) => el.amount);
-    //   const typeMap = {
-    //     '-': '支出',
-    //     '+': '收入'
-    //   };
-    //   this.options = {
-    //     title: {
-    //       textStyle: {color: '#333'},
-    //       // text: typeMap[this.typeSelect]
-    //     },
-    //     tooltip: {},
-    //     xAxis: {
-    //       type: 'category',
-    //       data: dateTimeList
-    //     },
-    //     legend: {
-    //       data:[typeMap[this.typeSelect]]
-    //     },
-    //     yAxis: {
-    //       type: 'value'
-    //     },
-    //     series: [{
-    //       name: typeMap[this.typeSelect], type: 'line',
-    //       data: amountList,
-    //
-    //       smooth: true
-    //     }],
-    //     color:'#333'
-    //   };
-    // }
 
     get recordList() {
       return this.$store.state.recordList;
@@ -156,7 +138,7 @@
       }
     }
 
-    sortList(recordList) {
+    sortList(recordList: RecordItem[]): RecordItem[] {
       return clone(recordList)
         .filter((el: RecordItem) => el.type === this.typeSelect)
         .sort((a: RecordItem, b: RecordItem) => dayjs(b.createdAt).valueOf() - dayjs(a.createdAt).valueOf());
@@ -169,7 +151,7 @@
 
       if (newList.length === 0) {return [];}
 
-      type GroupList = { title: string; totalPrice?: number; items: RecordItem[] };
+      type GroupList = { title: string | undefined; totalPrice?: number; items: RecordItem[] };
       const groupList: GroupList[] = [{title: dayjs(newList[0].createdAt).format('YYYY-MM-DD'), items: [newList[0]]}];
       // 將同一天的記錄分組
       for (let i = 1; i < newList.length; i++) {

@@ -40,8 +40,8 @@
     }
 
 
-    toISO(date){
-      return dayjs(date).format('YYYY-MM-DDTHH:mm');
+    toISO(date: string): string{
+      return dayjs(date).format('YYYY-MM-DDTHH:mm') as string;
     }
   }
 </script>

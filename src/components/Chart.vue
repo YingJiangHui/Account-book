@@ -6,20 +6,19 @@
   import Vue from 'vue';
   import {Component, Prop, Watch} from 'vue-property-decorator';
   import echarts ,{EChartOption}from 'echarts';
+  import ECharts = echarts.ECharts
   @Component
   export default class Chart extends Vue {
-    screenW = document.documentElement.clientWidth
-
-    @Prop() options?: EChartOption;
-    chart;
+    @Prop() options!: EChartOption;
+    chart?: ECharts;
     @Watch('options',{deep: true })
-    onOptionChange(){
+    onOptionsChange(){
+      if(this.chart)
       this.chart.setOption(this.options);
-
     }
     mounted(): void {
       const container = this.$refs.chart;
-      this.chart = echarts.init(container)
+      this.chart = echarts.init(container as HTMLDivElement)
       this.chart.setOption(this.options);
     }
   }
