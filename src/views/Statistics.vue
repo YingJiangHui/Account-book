@@ -68,7 +68,7 @@
           array.push({date: dateStr, amount: 0});
         }
       }
-      const date = array.map((el: ArrList)=>dayjs(el.date));
+      const date = array.map((el: ArrList)=>el.date);
       const value = array.map((el: ArrList)=>el.amount);
       return {
         grid: {
@@ -77,7 +77,6 @@
         },
         title: {
           textStyle: {color: '#333'},
-          // text: typeMap[this.typeSelect]
         },
         tooltip: {
           trigger: 'item',
