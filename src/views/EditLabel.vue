@@ -32,7 +32,7 @@
     }
 
     update(name: string) {
-      if (this.currentTag)
+      if (this.currentTag&&this.$store.getters.getIsUpdate)
         this.$store.commit('updateTags',  {id:this.currentTag.id, name});
     }
 
@@ -44,11 +44,15 @@
         alert('删除失敗');
         throw this.commitState
       }
-      this.goBack();
+      this.$router.back();
     }
 
     goBack() {
-      this.$router.back();
+      if(this.$store.getters.getIsUpdate){
+        this.$router.back();
+      }else{
+        alert('标签名存在重复')
+      }
     }
   }
 

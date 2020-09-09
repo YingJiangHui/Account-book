@@ -6,19 +6,27 @@ import createId from '@/lib/createId';
 Vue.use(Vuex);
 
 type RootState = {
-  currentState: Error|string;
+  isUpdate: boolean;
+  currentState: Error | string;
   recordList: RecordItem[];
   tagsList: Tag[];
-  currentTag: Tag|undefined;
+  currentTag: Tag | undefined;
 }
 const store = new Vuex.Store({
   state: {
+    isUpdate: true,
     recordList: [] as RecordItem[],
     tagsList: [] as Tag[],
-    currentTag:undefined
+    currentTag: undefined
   } as RootState,
+  getters: {
+    getIsUpdate(state) {
+      return state.isUpdate;
+    }
+  },
+
   mutations: {
-    setCurrentTag(state,id: string){
+    setCurrentTag(state, id: string) {
       state.currentTag = state.tagsList.find(item => item.id === id);
     },
 
@@ -38,12 +46,12 @@ const store = new Vuex.Store({
 
     createTags(state, name: string) {
       const names = state.tagsList.map((item) => item.name);
-      state.currentState=''
+      state.currentState = '';
       if (names.indexOf(name) >= 0) {
-        console.log('exist')
-        state.currentState = 'duplicated'
-      }else{
-        console.log('not exist')
+        console.log('exist');
+        state.currentState = 'duplicated';
+      } else {
+        console.log('not exist');
         const id = createId().toString();
         state.tagsList.push({id, name});
         store.commit('saveTags');
@@ -55,37 +63,37 @@ const store = new Vuex.Store({
     },
     fetchTags(state) {
       state.tagsList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
-      const initTags = ['衣','食','住','行']
-      if(state.tagsList.length===0){
-        for(const item of initTags){
-          store.commit('createTags',item);
+      const initTags = ['衣', '食', '住', '行'];
+      if (state.tagsList.length === 0) {
+        for (const item of initTags) {
+          store.commit('createTags', item);
         }
       }
     },
-    updateTags(state: RootState,payload: { id: string; name: string }) {
-      const {name,id} = payload
-      const tag = state.tagsList.find(el=>el.id===id)
+    updateTags(state: RootState, payload: { id: string; name: string }) {
+      const {name, id} = payload;
+      const tag = state.tagsList.find(el => el.id === id);
       if (tag) {
-        if (name === tag.name) {
-          console.log(name)
-        } else {
-          if (name) {
-            tag.name = name;
-            store.commit('saveTags');
-          }
+        tag.name = name;
+        store.commit('saveTags');
+        const repeat = state.tagsList.find(el => el.name === name&&!(el.id===id));
+        if (repeat) {
+          state.isUpdate = false;
+        }else{
+          state.isUpdate = true;
         }
       }
     },
 
     removeTags(state, id: string) {
-      const tag = state.tagsList.find(el=>el.id===id)
+      const tag = state.tagsList.find(el => el.id === id);
       if (tag) {
         const index = state.tagsList.indexOf(tag);
-        state.currentState=''
+        state.currentState = '';
         state.tagsList.splice(index, 1);
         store.commit('saveTags');
         state.currentState = 'success';
-      }else{
+      } else {
         state.currentState = 'not found';
       }
     }
@@ -94,5 +102,5 @@ const store = new Vuex.Store({
 
 });
 
-store.commit('fetchTags')
+store.commit('fetchTags');
 export default store;
