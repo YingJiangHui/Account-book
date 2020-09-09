@@ -99,12 +99,13 @@
     }
 
     inputContent(event: MouseEvent) {
-
+      if(this.output.length>=14)return;
       const table = '1234567890+-÷×';
       const target = (event.target as HTMLButtonElement);
       const input = target.textContent!;
       const str = this.output[this.output.length - 1];
       // 避免重複的運算符
+
       if (input.match(this.regExp.operator) && str.match(this.regExp.lastOperator)) {
         this.output = this.output.replace(this.regExp.lastOperator, input);
         return;
