@@ -73,8 +73,9 @@ const store = new Vuex.Store({
     updateTags(state: RootState, payload: { id: string; name: string }) {
       const {name, id} = payload;
       const tag = state.tagsList.find(el => el.id === id);
+      if(!name.trim())return
       if (tag) {
-        tag.name = name;
+        tag.name = name.trim();
         store.commit('saveTags');
         const repeat = state.tagsList.find(el => el.name === name&&!(el.id===id));
         if (repeat) {
