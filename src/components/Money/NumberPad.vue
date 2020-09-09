@@ -94,6 +94,7 @@
         '×': beforeItem * afterItem,
         '÷': beforeItem / afterItem,
       };
+      if(obj[types]===Infinity||obj[types]===-Infinity){return 0}
       return obj[types] as number;
     }
 
