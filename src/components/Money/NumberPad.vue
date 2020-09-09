@@ -34,15 +34,15 @@
 <script lang="ts">
   import Vue from 'vue';
   import {Component, Watch, Prop} from 'vue-property-decorator';
-  import regExp from '@/constants/regExp'
+  import regExp from '@/constants/regExp';
 
   @Component
   export default class NumberPad extends Vue {
     @Prop(Number) value!: number;
     output = this.value.toString();
-    regExp = regExp
+    regExp = regExp;
     size = 36;
-    timer=0;
+    timer = 0;
 
     press() {
       this.timer = setTimeout(() => this.output = '0', 1000);
@@ -88,7 +88,7 @@
     }
 
     computer(types: string, beforeItem: number, afterItem: number): number {
-      const obj: {[key: string]: number} = {
+      const obj: { [key: string]: number } = {
         '+': beforeItem + afterItem,
         '-': beforeItem - afterItem,
         '×': beforeItem * afterItem,
@@ -149,9 +149,13 @@
     }
 
     ok() {
+      if (this.output === '0') {
+        alert('未输入金额');
+        return;
+      }
       this.$emit('update:value', parseFloat(this.output));
       this.$emit('submit', parseFloat(this.output));
-      this.output = '0'
+      this.output = '0';
     }
 
   }

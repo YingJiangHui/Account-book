@@ -1,10 +1,11 @@
 <template>
     <Layout>
         <Tabs :value.sync="typeSelect" classPrefix="type" :list="recordTypeList"/>
-        <NotContent v-if="groupList.length===0">沒有添加記錄...</NotContent>
         <div class="chart-wrapper" ref="chartWrapper">
             <Chart :options="options"/>
         </div>
+        <NotContent v-if="groupList.length===0">暂无数据...</NotContent>
+
         <div>
             <ol>
                 <li v-for="(group,index) in groupList" :key="index">
