@@ -1,0 +1,75 @@
+.numberPad {
+  > .output {
+    @extend %clearFix;
+    @extend %innerShadow;
+
+    background: #fff;
+    font-family: Consolas, monospace;
+    min-height: 98px;
+    padding: 0 16px;
+    text-align: right;
+    position: relative;
+
+    > .operation {
+      font-size: 2rem;
+      top: 5px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    > * {
+      position: absolute;
+      right: 16px;
+    }
+
+    > .result {
+      bottom: 5px;
+      font-size: 24px;
+      color: rgba(0, 0, 0, 0.4);
+    }
+  }
+
+  > .buttons {
+
+    @extend %clearFix;
+    &{
+      display: flex;
+    }
+
+
+    button {
+      font-size: 20px;
+      float: left;
+      $h: 56px;
+      height: $h;
+      border: none;
+      background: transparent;
+      &.zero {
+        width: 40%;
+      }
+
+      &.ok {
+        color: #fff;
+        background: #ffb200;
+        float: right;
+        height: $h*2;
+      }
+
+
+    }
+    .operator{
+      width: 40%;
+      background: #eeeeee;
+      >button{
+        width: 50%;
+      }
+    }
+    .num{
+      background: white;
+      width: 60%;
+      >button{
+        width: 33.33%;
+      }
+    }
+  }
+}

@@ -5,28 +5,33 @@
             <div class="result">{{result}}</div>
         </div>
         <div class="buttons">
-            <button @click="inputContent">1</button>
-            <button @click="inputContent">2</button>
-            <button @click="inputContent">3</button>
-            <button @click="inputContent">+</button>
-            <button @touchstart.prevent="press" @touchend="uplift">
-                <Icon name="delete"/>
-            </button>
+            <div class="num">
+                <button @click="inputContent">1</button>
+                <button @click="inputContent">2</button>
+                <button @click="inputContent">3</button>
+                <button @click="inputContent">4</button>
+                <button @click="inputContent">5</button>
+                <button @click="inputContent">6</button>
+                <button @click="inputContent">7</button>
+                <button @click="inputContent">8</button>
+                <button @click="inputContent">9</button>
+                <button @click="inputContent">.</button>
+                <button @click="inputContent" class="zero">0</button>
+            </div>
+            <div class="operator">
+                <button @click="inputContent">+</button>
+                <button @touchstart.prevent="press" @touchend="uplift">
+                    <Icon name="delete"/>
+                </button>
 
-            <button @click="inputContent">4</button>
-            <button @click="inputContent">5</button>
-            <button @click="inputContent">6</button>
-            <button @click="inputContent">-</button>
-            <button @click="equalTo">=</button>
+                <button @click="inputContent">-</button>
+                <button @click="equalTo">=</button>
 
-            <button @click="inputContent">7</button>
-            <button @click="inputContent">8</button>
-            <button @click="inputContent">9</button>
-            <button @click="inputContent">×</button>
-            <button @click="ok" class="ok">OK</button>
-            <button @click="inputContent" class="zero">0</button>
-            <button @click="inputContent">.</button>
-            <button @click="inputContent">÷</button>
+                <button @click="inputContent">×</button>
+                <button @click="ok" class="ok">OK</button>
+                <button @click="inputContent">÷</button>
+            </div>
+
         </div>
     </div>
 </template>
@@ -165,93 +170,6 @@
 
 <style lang="scss" scoped>
     @import '~@/assets/style/helper.scss';
+    @import './NumberPad.scss';
 
-    .numberPad {
-        > .output {
-            @extend %clearFix;
-            @extend %innerShadow;
-
-            background: #fff;
-            font-family: Consolas, monospace;
-            min-height: 98px;
-            padding: 0 16px;
-            text-align: right;
-            position: relative;
-
-            > .operation {
-                font-size: 1 rm;
-                top: 5px;
-                overflow: hidden;
-                white-space: nowrap;
-            }
-
-            > * {
-                position: absolute;
-                right: 16px;
-            }
-
-            > .result {
-                bottom: 5px;
-                font-size: 24px;
-                color: rgba(0, 0, 0, 0.4);
-            }
-        }
-
-        > .buttons {
-            @extend %clearFix;
-
-            > button {
-                font-size: 20px;
-                float: left;
-                $h: 56px;
-                height: $h;
-                background: transparent;
-                width: 20%;
-                border: none;
-
-                &.zero {
-                    width: 40%;
-                }
-
-                &.ok {
-                    float: right;
-                    height: $h*2;
-                }
-
-                $bg: #f2f2f2;
-
-                &:nth-child(1) {
-                    background: $bg;
-                }
-
-                &:nth-child(2), &:nth-child(6) {
-                    background: darken($bg, 4%);
-                }
-
-                &:nth-child(3), &:nth-child(7), &:nth-child(11) {
-                    background: darken($bg, 4%*2);
-                }
-
-                &:nth-child(4), &:nth-child(8), &:nth-child(12) {
-                    background: darken($bg, 4%*3);
-                }
-
-                &:nth-child(5), &:nth-child(9), &:nth-child(13), &:nth-child(16) {
-                    background: darken($bg, 4%*4);
-                }
-
-                &:nth-child(10), &:nth-child(14), &:nth-child(17) {
-                    background: darken($bg, 4%*5);
-                }
-
-                &:nth-child(18) {
-                    background: darken($bg, 4%*6);
-                }
-
-                &:nth-child(15) {
-                    background: darken($bg, 4%*7);
-                }
-            }
-        }
-    }
 </style>
