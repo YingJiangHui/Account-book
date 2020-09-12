@@ -38,6 +38,7 @@
 </script>
 
 <style lang="scss" scoped>
+
     .tags {
         background: #fff;
         padding-left: 16px;

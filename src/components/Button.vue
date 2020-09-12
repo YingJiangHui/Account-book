@@ -23,7 +23,7 @@
         height: 40px;
         padding: 0 16px;
         border: none;
-        background: #767676;
+        background: #ffb200;
         color: white;
 
         &-wrapper {

@@ -86,7 +86,7 @@
 
             }
             >.selected {
-                border-bottom: 3px solid #000;
+               background: #ffb200;
             }
         }
     }

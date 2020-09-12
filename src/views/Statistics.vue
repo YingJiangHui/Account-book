@@ -77,7 +77,7 @@
           right: 0
         },
         title: {
-          textStyle: {color: '#333'},
+          textStyle: {color: '#ffb200'},
         },
         tooltip: {
           trigger: 'item',
@@ -91,7 +91,7 @@
           },
           axisLine: {
             lineStyle: {
-              color: '#666',
+              color: '#999',
             }
           }
         },
@@ -108,7 +108,7 @@
           type: 'line',
           data: value,
           itemStyle: {
-            color: '#666'
+            color: '#ffb200'
           },
           symbolSize: 10,
 
@@ -178,12 +178,12 @@
     ::v-deep {
         .type-tabs {
             > .type-item {
-                background: #fff;
+                background: #000;
                 line-height: 64px;
             }
 
             > .selected {
-                background: #c4c4c4;
+                background: #ffb200;
             }
         }
 
@@ -203,6 +203,7 @@
     }
 
     .title {
+        color: #ffb200;
         display: flex;
         justify-content: space-between;
         padding: 7px 16px;

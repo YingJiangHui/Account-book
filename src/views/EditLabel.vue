@@ -57,6 +57,7 @@
   }
 
 </script>
+
 <style lang="scss" scoped>
     .navBar {
         line-height: 48px;
@@ -73,7 +74,9 @@
         }
 
     }
-
+    .icon{
+        fill:#ffb200;
+    }
     .form-item {
         margin-top: 8px;
         background: #fff;

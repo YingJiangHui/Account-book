@@ -77,21 +77,23 @@
         > .current {
             display: flex;
             flex-wrap: wrap-reverse;
-            $gb: #d9d9d9;
+            $gb: #000;
 
             > li {
+                color: #ffb200;
+                border: 1px solid #ffb200;
                 cursor: pointer;
                 margin-top: 10px;
                 $h: 24px;
                 height: $h;
                 line-height: $h;
                 border-radius: $h/2;
-                background: $gb;
+                background: #fff;
                 padding: 0 16px;
                 margin-right: 8px;
 
                 &.selected {
-                    background: darken($gb, 50%);
+                    background: #ffb200;
                     color: #fff;
                 }
             }
@@ -100,7 +102,7 @@
 
         .new {
             button {
-                color: #999;
+                color: #ffb200;
                 border: none;
                 border-bottom: 1px solid;
                 background: transparent;

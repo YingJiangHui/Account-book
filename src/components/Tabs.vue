@@ -34,9 +34,11 @@
         display: flex;
 
         > li {
+            transition: .2s;
             cursor: pointer;
             font-size: 22px;
-            background: #c4c4c4;
+            background: #000;
+            color: #fff;
             text-align: center;
             flex: 1;
         }
